@@ -1,38 +1,37 @@
-using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private EnemyReferences enemyRef;
     private StateMachine stateMachine;
+    private EnemyReferences enemyRefs;
+    public Transform[] patrolPoints;
+    public Transform patrolPointContainer;
+   
 
-    void Start()
+    private void Awake()
     {
-        enemyRef = GetComponent<EnemyReferences>();
+        enemyRefs = GetComponent<EnemyReferences>();
+        
+        patrolPoints = patrolPointContainer.GetComponentsInChildren<Transform>();
 
-        // StateMachine is NOT a MonoBehaviour → instantiate manually
-        stateMachine = new StateMachine();
 
-        PatrolArea area = GetComponent<PatrolArea>();
 
-        // STATES
-        var patrol = new EnemyState_Patrol(enemyRef, area);
-
-        // SET INITIAL STATE
-        stateMachine.SetState(patrol);
-
-        // TRANSITIONS (example)
-        void At(IState from, IState to, Func<bool> condition) =>
-            stateMachine.AddTransition(from, to, condition);
-
-        void Any(IState to, Func<bool> condition) =>
-            stateMachine.AddAnyTransition(to, condition);
-
-        // Example transition (you can add your own)
-        // At(patrol, chase, () => enemyRef.CanSeePlayer);
+        stateMachine = new StateMachine();   // IMPORTANT: StateMachine is NOT a MonoBehaviour
     }
 
-    void Update()
+    private void Start()
+    {
+        // Create the patrol state
+        var patrolState = new EnemyState_Patrol(enemyRefs, patrolPoints);
+
+        // Set initial state
+        stateMachine.SetState(patrolState);
+
+        // If you want transitions later:
+        // stateMachine.AddTransition(patrolState, chaseState, () => enemyRefs.CanSeePlayer);
+    }
+
+    private void Update()
     {
         stateMachine.Tick();
     }
@@ -42,7 +41,7 @@ public class EnemyController : MonoBehaviour
         if (stateMachine != null)
         {
             Gizmos.color = stateMachine.GetGizmoColor();
-            Gizmos.DrawSphere(transform.position + Vector3.up * 3, 0.4f);
+            Gizmos.DrawSphere(transform.position + Vector3.up * 2f, 0.3f);
         }
     }
 }

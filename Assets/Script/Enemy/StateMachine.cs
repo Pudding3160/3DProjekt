@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-//https://www.youtube.com/watch?v=rs7xUi9BqjE
+
 public class StateMachine
 {
     private IState currentState;

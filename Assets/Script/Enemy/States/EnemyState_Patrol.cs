@@ -2,35 +2,54 @@ using UnityEngine;
 
 public class EnemyState_Patrol : IState
 {
-    private EnemyReferences enemyReferences;
-    private PatrolArea patrolArea;
+    private EnemyReferences refs;
+    public Transform[] patrolPoints;
+    public Transform patrolPointContainer;
+    private float waitTimer;
 
-    public EnemyState_Patrol(EnemyReferences enemyReferences, PatrolArea patrolPoint)
+    public EnemyState_Patrol(EnemyReferences refs, Transform[] patrolPoints)
     {
-        this.enemyReferences = enemyReferences;
-        this.patrolArea = patrolPoint; 
-    }
-
-    public Color GizmoColor()
-    {
-        return Color.yellow;
+        this.refs = refs;
+        this.patrolPoints = patrolPoints;
     }
 
     public void OnEnter()
     {
-        PatrolPoint nextPoint = this.patrolArea.GetRandomPoint(enemyReferences.transform.position);
-        enemyReferences.navMeshagent.SetDestination(nextPoint.transform.position);
-    }
-
-    public void OnExit()
-    {
-        throw new System.NotImplementedException();
+        PickNewPoint();
+        waitTimer = 0f;
+        Debug.Log("entered patrol");
     }
 
     public void Tick()
     {
-        throw new System.NotImplementedException();
+        if (refs.navMeshagent.remainingDistance <= 0.2f)
+        {
+            waitTimer += Time.deltaTime;
+
+            if (waitTimer >= 2f)
+            {
+              PickNewPoint();
+                waitTimer = 0f;
+            }
+        }
     }
 
-   
+    public void OnExit()
+    {
+        // Optional cleanup
+    }
+
+    public Color GizmoColor()
+    {
+        return Color.blue;
+    }
+
+   private void PickNewPoint()
+    {
+        refs.navMeshagent.SetDestination(
+                    patrolPoints[Random.Range(0, patrolPoints.Length)].position
+                );
+        waitTimer = 0f;
+    }
+
 }
