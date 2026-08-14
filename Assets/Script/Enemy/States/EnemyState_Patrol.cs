@@ -25,13 +25,18 @@ public class EnemyState_Patrol : IState
         if (refs.navMeshagent.remainingDistance <= 0.2f)
         {
             waitTimer += Time.deltaTime;
-
+            
             if (waitTimer >= 2f)
             {
               PickNewPoint();
                 waitTimer = 0f;
             }
         }
+    }
+
+    private void CheckForPlayer()
+    {
+        throw new System.NotImplementedException();
     }
 
     public void OnExit()

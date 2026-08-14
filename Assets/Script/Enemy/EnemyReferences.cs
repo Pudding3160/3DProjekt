@@ -5,21 +5,11 @@ public class EnemyReferences : MonoBehaviour
 {
     public NavMeshAgent navMeshagent;
     public Animator animator;
+    public Transform player;
 
     private void Awake()
     {
-        navMeshagent=GetComponent<NavMeshAgent>();
-        animator=GetComponent<Animator>();  
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        navMeshagent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 }

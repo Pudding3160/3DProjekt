@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -21,20 +22,38 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        // Create the patrol state
+        // States
         var patrolState = new EnemyState_Patrol(enemyRefs, patrolPoints);
+        var idleState = new EnemyState_Idle(enemyRefs);
+        
 
-        // Set initial state
-        stateMachine.SetState(patrolState);
+        // Initial State   
+        stateMachine.SetState(idleState);
+        // Transitions
+        At(idleState, patrolState, PlayerClose());
+        stateMachine.AddAnyTransition(patrolState,PlayerClose());
+       
+        void At(IState from, IState to, Func<bool> condition)
+    => stateMachine.AddTransition(from, to, condition);
 
-        // If you want transitions later:
-        // stateMachine.AddTransition(patrolState, chaseState, () => enemyRefs.CanSeePlayer);
     }
 
-    private void Update()
+   // private Func<bool> PlayerClose() => () => Vector3.Distance(transform.position, enemyRefs.player.transform.position) > 10f;
+
+    private Func<bool> PlayerClose() => () =>
     {
-        stateMachine.Tick();
-    }
+        float distance = Vector3.Distance(
+            transform.position,
+            enemyRefs.player.transform.position
+        );
+
+        Debug.Log($"Player distance: {distance}");
+
+        return distance >= 10f;
+    };
+
+    private void Update()=>stateMachine.Tick();
+    
 
     private void OnDrawGizmos()
     {
