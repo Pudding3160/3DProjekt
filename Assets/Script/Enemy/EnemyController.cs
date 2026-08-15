@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     private EnemyReferences enemyRefs;
     public Transform[] patrolPoints;
     public Transform patrolPointContainer;
+    public Transform player;
    
 
     private void Awake()
@@ -25,20 +26,29 @@ public class EnemyController : MonoBehaviour
         // States
         var patrolState = new EnemyState_Patrol(enemyRefs, patrolPoints);
         var idleState = new EnemyState_Idle(enemyRefs);
+        var chaseState=new EnemyState_Chase(enemyRefs,player);
         
 
         // Initial State   
         stateMachine.SetState(idleState);
         // Transitions
-        At(idleState, patrolState, PlayerClose());
-        stateMachine.AddAnyTransition(patrolState,PlayerClose());
+      //  At(idleState, patrolState, PlayerClose());
+        At(patrolState, chaseState, PlayerInSight());
+        At(chaseState, patrolState, PlayerFar());
+
        
         void At(IState from, IState to, Func<bool> condition)
     => stateMachine.AddTransition(from, to, condition);
 
     }
 
-   // private Func<bool> PlayerClose() => () => Vector3.Distance(transform.position, enemyRefs.player.transform.position) > 10f;
+    private Func<bool> PlayerFar() => () => Vector3.Distance(transform.position, enemyRefs.player.transform.position) > 20f;
+
+
+    private Func<bool> PlayerInSight() => () => Vector3.Distance(transform.position, enemyRefs.player.transform.position) <10f;
+
+
+    // private Func<bool> PlayerClose() => () => Vector3.Distance(transform.position, enemyRefs.player.transform.position) > 10f;
 
     private Func<bool> PlayerClose() => () =>
     {

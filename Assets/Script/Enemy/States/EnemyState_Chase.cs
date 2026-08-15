@@ -16,12 +16,14 @@ public class EnemyState_Chase : IState
 
     public void Tick()
     {
-        throw new System.NotImplementedException();
+        refs.navMeshagent.SetDestination(
+                    patrolPoints[Random.Range(0, patrolPoints.Length)].position
+                );
     }
 
     public void OnEnter()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("entered chase");
     }
 
     public void OnExit()

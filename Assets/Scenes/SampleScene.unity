@@ -171,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 5541015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.53, y: 2.63, z: 9.43}
+  m_LocalPosition: {x: 12.75, y: 2.63, z: -8.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1664,7 +1664,7 @@ Transform:
   m_GameObject: {fileID: 1544552219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.72399, y: 1.78, z: 9.84351}
+  m_LocalPosition: {x: -11.8, y: 1.78, z: 11.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1693,6 +1693,7 @@ MonoBehaviour:
   - {fileID: 58040869}
   - {fileID: 991110116}
   patrolPointContainer: {fileID: 1987339190}
+  player: {fileID: 5541017}
 --- !u!1 &1656960778
 GameObject:
   m_ObjectHideFlags: 0
