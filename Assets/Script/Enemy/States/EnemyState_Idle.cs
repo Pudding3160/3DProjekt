@@ -26,7 +26,7 @@ public class EnemyState_Idle : IState
 
     public void Tick()
     {
-       
+        Debug.Log("Still idle"); 
     }
 
  

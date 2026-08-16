@@ -7,17 +7,16 @@ public class EnemyState_Chase : IState
     public Transform[] patrolPoints;
     public Transform patrolPointContainer;
     private float waitTimer;
-    public Transform player;
-    public EnemyState_Chase(EnemyReferences refs, Transform player) 
+
+    public EnemyState_Chase(EnemyReferences refs)
     {
         this.refs = refs;
-        this.player = player;   
-    }
 
+    }
     public void Tick()
     {
         refs.navMeshagent.SetDestination(
-                    patrolPoints[Random.Range(0, patrolPoints.Length)].position
+                    refs.player.transform.position
                 );
     }
 
