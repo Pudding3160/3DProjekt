@@ -34,10 +34,6 @@ public class EnemyState_Patrol : IState
         }
     }
 
-    private void CheckForPlayer()
-    {
-        throw new System.NotImplementedException();
-    }
 
     public void OnExit()
     {
