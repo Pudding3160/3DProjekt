@@ -27,11 +27,11 @@ public class EnemyState_Chase : IState
 
     public void OnExit()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("exited chase");
     }
 
     public Color GizmoColor()
     {
-        throw new System.NotImplementedException();
+        return Color.red;
     }
 }

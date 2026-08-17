@@ -171,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 5541015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.75, y: 2.63, z: -8.23}
+  m_LocalPosition: {x: -5.76, y: 2.63, z: 8.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
   walkSpeed: 3
-  crouchMul: 0.6
+  crouchMul: 1.4
   jumpForce: 5
   gravityMul: 1
   sens: 0.1
@@ -1530,6 +1530,7 @@ GameObject:
   - component: {fileID: 1544552223}
   - component: {fileID: 1544552221}
   - component: {fileID: 1544552220}
+  - component: {fileID: 1544552228}
   - component: {fileID: 1544552227}
   m_Layer: 0
   m_Name: Capsule
@@ -1548,7 +1549,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1693,7 +1694,22 @@ MonoBehaviour:
   - {fileID: 58040869}
   - {fileID: 991110116}
   patrolPointContainer: {fileID: 1987339190}
-  player: {fileID: 5541017}
+--- !u!114 &1544552228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544552219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec5c9b99fe01cc4aabdb4ea85b029b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySight
+  detectionRange: 15
+  viewAngle: 120
+  losePlayerTimer: 1.2
+  timeSinceLostPlayer: 0
 --- !u!1 &1656960778
 GameObject:
   m_ObjectHideFlags: 0

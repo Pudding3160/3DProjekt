@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,10 +10,8 @@ public class EnemyController : MonoBehaviour
     private EnemyReferences enemyRefs;
     public Transform[] patrolPoints;
     public Transform patrolPointContainer;
+    private EnemySight sight;
 
-    [Header("Settings")]
-    [SerializeField] private float detectionRange = 15f;
-    [SerializeField] private float viewAngle = 90f;
    
 
     private void Awake()
@@ -21,9 +20,10 @@ public class EnemyController : MonoBehaviour
         
         patrolPoints = patrolPointContainer.GetComponentsInChildren<Transform>();
 
+        sight = GetComponent<EnemySight>();
 
 
-        stateMachine = new StateMachine();   // IMPORTANT: StateMachine is NOT a MonoBehaviour
+        stateMachine = new StateMachine();  
     }
 
     private void Start()
@@ -36,26 +36,24 @@ public class EnemyController : MonoBehaviour
         //going from idle to patrol
         stateMachine.AddTransition(idleState,patrolState,PlayerClose());
         stateMachine.AddTransition(patrolState, chaseState, PlayerInSight());
-       // stateMachine.AddTransition(chaseState, patrolState, LostPlayer());
+        stateMachine.AddTransition(chaseState, patrolState, LostPlayer());
         //starting state
         stateMachine.SetState(idleState);
     }
 
-    private Func<bool> PlayerInSight()
+    private Func<bool> LostPlayer() => ()=>{
+        Debug.Log($"Time since spotted: {sight.timeSinceLostPlayer}");
+        return sight.lostPlayer();
+        };
+
+    private Func<bool> PlayerInSight() => () =>
     {
-        float distance = Vector3.Distance(
-            transform.position,
-            enemyRefs.player.transform.position
-        );
 
-        return distance > detectionRange && canSeePlayer();
+ 
 
-    }
+        return sight.canSeePlayer();
 
-    private bool canSeePlayer()
-    {
-        return true;
-    }
+    };
 
     private Func<bool> PlayerClose() => () =>
     {
@@ -64,7 +62,6 @@ public class EnemyController : MonoBehaviour
             enemyRefs.player.transform.position
         );
 
-        Debug.Log($"Player distance: {distance}");
 
         return distance <= 50f;
     };
