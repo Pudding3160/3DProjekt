@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
         var patrolState = new EnemyState_Patrol(enemyRefs, patrolPoints);
         var idleState = new EnemyState_Idle(enemyRefs);
         var chaseState= new EnemyState_Chase(enemyRefs);
+
         //transitions
         //going from idle to patrol
         stateMachine.AddTransition(idleState,patrolState,PlayerClose());

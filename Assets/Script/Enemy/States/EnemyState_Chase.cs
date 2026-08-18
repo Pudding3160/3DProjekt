@@ -7,6 +7,7 @@ public class EnemyState_Chase : IState
     public Transform[] patrolPoints;
     public Transform patrolPointContainer;
     private float waitTimer;
+    
 
     public EnemyState_Chase(EnemyReferences refs)
     {
