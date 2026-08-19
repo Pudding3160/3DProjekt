@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
     [Header("Speed values")]
     [SerializeField] private float walkSpeed = 3.0f;
-    [SerializeField] private float crouchMul = 0.6f;
+    [SerializeField] private float sneakMul = 0.6f;
     [Header("Jump")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float gravityMul = 1f;
@@ -20,7 +20,7 @@ public class PlayerControl : MonoBehaviour
 
     private Vector3 currentMovement;
     private float verticalRotation;
-    private float CurrentSpeed => walkSpeed * (playerInputHandler.CrouchTrigger ? crouchMul : 1);
+    private float CurrentSpeed => walkSpeed * (playerInputHandler.CrouchTrigger ? sneakMul : 1);
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +41,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 worldDirection = transform.TransformDirection(inputDirection);
         return worldDirection.normalized;
     }
+
 
     private void HandleJumping()
     {
