@@ -10,6 +10,7 @@ public class EnemySight : MonoBehaviour
     [SerializeField] private float detectionRange = 15f;
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private float losePlayerTimer = 1.2f;
+    public Transform playerLastSpotted;
     public float timeSinceLostPlayer;
 
 
