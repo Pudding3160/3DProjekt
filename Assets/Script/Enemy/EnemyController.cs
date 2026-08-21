@@ -6,16 +6,20 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class EnemyController : MonoBehaviour
 {
+    [Header("References")]
     private StateMachine stateMachine;
     private EnemyReferences enemyRefs;
     public Transform[] patrolPoints;
     public Transform patrolPointContainer;
     public Transform[] playerCirclePoints;
     public Transform playerCircleContainer;
+    [Header("Attachments")]
     private EnemySight sight;
     private EnemyBite bite;
+
+
     private bool aggresive = true;
-    public bool attackDone;
+   
    
 
     private void Awake()
@@ -29,6 +33,8 @@ public class EnemyController : MonoBehaviour
         sight = GetComponent<EnemySight>();
 
         bite= GetComponent<EnemyBite>();    
+
+   
 
         stateMachine = new StateMachine();  
     }
@@ -46,6 +52,7 @@ public class EnemyController : MonoBehaviour
         //going from idle to patrol
        // stateMachine.AddTransition(idleState,patrolState,PlayerClose());
         stateMachine.AddAnyTransition(chaseState, PlayerInSightChase());
+        stateMachine.AddAnyTransition(chaseState, PlayerIsHeard());
         stateMachine.AddTransition(chaseState, idleState, PlayerInAttackRange());
        // stateMachine.AddTransition(attackState, chaseState, CantBite());
        // stateMachine.AddTransition(attackStunnedState, idleState, StunCompleted());
@@ -57,6 +64,11 @@ public class EnemyController : MonoBehaviour
         //starting state
         stateMachine.SetState(patrolState);
     }
+
+    private Func<bool> PlayerIsHeard()=>()=>
+    {
+        return sight.canHear();
+    };
 
     private Func<bool> CantBite() => () =>
     {

@@ -8,8 +8,12 @@ public class EnemySight : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float detectionRange = 15f;
+    [SerializeField] private float hearRange = 25f;
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private float losePlayerTimer = 1.2f;
+    private CharacterController charController; 
+    public GameObject player;
+    private float overallSpeed;
     public Transform playerLastSpotted;
     public float timeSinceLostPlayer;
 
@@ -18,7 +22,8 @@ public class EnemySight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       refs = GetComponent<EnemyReferences>(); 
+       refs = GetComponent<EnemyReferences>();
+        charController = player.GetComponent<CharacterController>();
     }
 
     public bool canSeePlayer()
@@ -36,6 +41,24 @@ public class EnemySight : MonoBehaviour
         return distance<= detectionRange;    
     }
 
+    public bool canHear()
+    {
+        float distance = Vector3.Distance(
+         transform.position,
+         refs.player.transform.position
+     );
+        Vector3 horizontalVelocity = charController.velocity;
+        horizontalVelocity = new Vector3(charController.velocity.x, 0, charController.velocity.z);
+
+        // The speed on the x-z plane ignoring any speed
+        float horizontalSpeed = horizontalVelocity.magnitude;
+        // The speed from gravity or jumping
+        float verticalSpeed = charController.velocity.y;
+        // The overall speed
+        overallSpeed = charController.velocity.magnitude;
+        Debug.Log(overallSpeed);
+        return distance <= hearRange && overallSpeed > 3f;
+    }
     private bool HasClearPath()
     {
         var dirToPlayer= refs.player.position-transform.position;
@@ -64,7 +87,7 @@ public class EnemySight : MonoBehaviour
     } 
     void Update()
     {
-        if (!canSeePlayer())
+        if (!canSeePlayer() && !canHear())
         {
             timeSinceLostPlayer += Time.deltaTime;
         }

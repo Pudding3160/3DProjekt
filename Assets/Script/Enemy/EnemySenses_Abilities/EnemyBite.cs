@@ -6,7 +6,7 @@ public class EnemyBite : MonoBehaviour
     private EnemyReferences refs;
 
     [Header("Settings")]
-    [SerializeField] private float biteRange = 2f;
+    [SerializeField] private float biteRange = 5f;
     private void Start()
     {
         refs = GetComponent<EnemyReferences>();

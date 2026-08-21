@@ -1,5 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.Rendering;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -33,8 +35,11 @@ public class PlayerControl : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        
+        
     }
 
+    
     private Vector3 CalcWorldDirection()
     {
         Vector3 inputDirection = new Vector3(playerInputHandler.MoveInput.x, 0f, playerInputHandler.MoveInput.y);
