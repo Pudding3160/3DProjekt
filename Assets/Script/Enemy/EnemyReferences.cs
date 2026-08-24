@@ -7,6 +7,7 @@ public class EnemyReferences : MonoBehaviour
     public Animator animator;
     public Transform player;
     public Transform playerLastPos;
+    public bool stunned = false;
 
     private void Awake()
     {

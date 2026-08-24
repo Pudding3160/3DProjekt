@@ -1,59 +1,87 @@
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    [Header("InputAction")]
+    [Header("Input Action")]
     [SerializeField] private InputActionAsset playerControls;
 
-    [Header("Action map name ref")]
+    [Header("Action Map Name")]
     [SerializeField] private string actionMapName = "Player";
 
-    [Header("Action map name ref")]
+    [Header("Action Names")]
     [SerializeField] private string movement = "Move";
     [SerializeField] private string rotation = "Look";
     [SerializeField] private string jump = "Jump";
-    [SerializeField] private string crouch = "Crouch";
+    [SerializeField] private string sneak = "Crouch";
+    [SerializeField] private string sprint = "Sprint";
 
     private InputAction moveAction;
     private InputAction rotationAction;
     private InputAction jumpAction;
-    private InputAction crouchAction;
+    private InputAction sneakAction;
+    private InputAction sprintAction;
 
-    public Vector2 MoveInput {  get; private set; }
-    public Vector2 RotationInput {  get; private set; }
-    public bool JumpTrigger {  get; private set; }
-    public bool CrouchTrigger {  get; private set; }
+    public Vector2 MoveInput { get; private set; }
+    public Vector2 RotationInput { get; private set; }
+
+    public bool JumpTriggered { get; private set; }
+
+    public bool IsSneaking { get; private set; }
+    public bool IsSprinting { get; private set; }
 
     private void Awake()
     {
-        InputActionMap mapRef=playerControls.FindActionMap(actionMapName);
+        InputActionMap mapRef =
+            playerControls.FindActionMap(actionMapName);
 
-        moveAction=mapRef.FindAction(movement);
-        rotationAction=mapRef.FindAction(rotation);
-        jumpAction=mapRef.FindAction(jump);
-        crouchAction=mapRef.FindAction(crouch);
+        moveAction = mapRef.FindAction(movement);
+        rotationAction = mapRef.FindAction(rotation);
+        jumpAction = mapRef.FindAction(jump);
+        sneakAction = mapRef.FindAction(sneak);
+        sprintAction = mapRef.FindAction(sprint);
 
-        SubActionValuestoInput();
+        SubscribeToInput();
     }
 
-    private void SubActionValuestoInput()
+    private void SubscribeToInput()
     {
-        moveAction.performed += inputInfo => MoveInput=  inputInfo.ReadValue<Vector2>();
-        moveAction.canceled += inputInfo => MoveInput = Vector2.zero;
+        // Movement
+        moveAction.performed += inputInfo =>
+            MoveInput = inputInfo.ReadValue<Vector2>();
 
-        rotationAction.performed+= inputInfo=>RotationInput= inputInfo.ReadValue<Vector2>();
-        rotationAction.canceled += inputInfo => RotationInput = Vector2.zero;
+        moveAction.canceled += inputInfo =>
+            MoveInput = Vector2.zero;
 
-        jumpAction.performed += inputInfo => JumpTrigger = true;
-        jumpAction.canceled += inputInfo => JumpTrigger = false;
+        // Rotation
+        rotationAction.performed += inputInfo =>
+            RotationInput = inputInfo.ReadValue<Vector2>();
 
+        rotationAction.canceled += inputInfo =>
+            RotationInput = Vector2.zero;
 
-        crouchAction.performed += inputInfo => CrouchTrigger = true;
-        crouchAction.canceled += inputInfo => CrouchTrigger = false;
+        // Jump
+        jumpAction.performed += inputInfo =>
+            JumpTriggered = true;
 
+        // Sneak / Crouch
+        sneakAction.performed += inputInfo =>
+            IsSneaking = true;
+
+        sneakAction.canceled += inputInfo =>
+            IsSneaking = false;
+
+        // Sprint
+        sprintAction.performed += inputInfo =>
+            IsSprinting = true;
+
+        sprintAction.canceled += inputInfo =>
+            IsSprinting = false;
+    }
+
+    public void ResetInputs()
+    {
+        JumpTriggered = false;
     }
 
     private void OnEnable()

@@ -3,9 +3,9 @@ using UnityEngine;
 public class EnemyEars : MonoBehaviour
 {
     private EnemyReferences refs;
-    public GameObject player;
+    
     [SerializeField] private float HearingRange = 15f;
-    private CharacterController charController;
+    private CharacterController charController;public GameObject player;
     private float overallSpeed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

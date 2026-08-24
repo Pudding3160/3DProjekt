@@ -18,6 +18,7 @@ public class EnemyState_Patrol : IState
         PickNewPoint();
         waitTimer = 0f;
         Debug.Log("entered patrol");
+        refs.navMeshagent.speed = 3.0f;
     }
 
     public void Tick()

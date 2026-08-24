@@ -16,6 +16,7 @@ public class EnemySight : MonoBehaviour
     private float overallSpeed;
     public Transform playerLastSpotted;
     public float timeSinceLostPlayer;
+    public bool shot = false;
 
 
 
@@ -56,7 +57,7 @@ public class EnemySight : MonoBehaviour
         float verticalSpeed = charController.velocity.y;
         // The overall speed
         overallSpeed = charController.velocity.magnitude;
-        Debug.Log(overallSpeed);
+        //Debug.Log(overallSpeed);
         return distance <= hearRange && overallSpeed > 3f;
     }
     private bool HasClearPath()
@@ -77,8 +78,16 @@ public class EnemySight : MonoBehaviour
         return angle < viewAngle / 2f;
     }
 
+    public void playerhit()
+    {
+        refs.stunned=true;
+    }
 
- 
+    public bool gotShot()
+    {
+        return refs.stunned;
+    }
+    
  
 
     internal bool lostPlayer()

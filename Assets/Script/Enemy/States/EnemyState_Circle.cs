@@ -41,7 +41,7 @@ public class EnemyState_Circle : IState
     public void OnEnter()
     {
         Debug.Log("Entered Circle");
-
+        refs.navMeshagent.speed = 4.0f;
         waitTimer = 0f;
         PickFirstPoint();
     }

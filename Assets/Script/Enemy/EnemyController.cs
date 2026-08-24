@@ -47,15 +47,18 @@ public class EnemyController : MonoBehaviour
         var chaseState= new EnemyState_Chase(enemyRefs);
         var circleState= new EnemyState_Circle(enemyRefs,playerCirclePoints);
         var attackState = new EnemyState_Bite();
+        var attackStunnedState= new EnemyState_AttackStunned(enemyRefs);
 
         //transitions
-        //going from idle to patrol
-       // stateMachine.AddTransition(idleState,patrolState,PlayerClose());
-        stateMachine.AddAnyTransition(chaseState, PlayerInSightChase());
-        stateMachine.AddAnyTransition(chaseState, PlayerIsHeard());
-        stateMachine.AddTransition(chaseState, idleState, PlayerInAttackRange());
-       // stateMachine.AddTransition(attackState, chaseState, CantBite());
-       // stateMachine.AddTransition(attackStunnedState, idleState, StunCompleted());
+
+        
+        stateMachine.AddTransition(patrolState, chaseState, PlayerInSightChase());
+        stateMachine.AddTransition(patrolState, circleState, PlayerIsHeard());
+        stateMachine.AddTransition(patrolState,chaseState, PlayerIsHeardChase());
+        stateMachine.AddTransition(attackStunnedState, patrolState, StunOver());
+        //stateMachine.AddTransition(chaseState, idleState, PlayerInAttackRange());
+        // stateMachine.AddTransition(attackState, chaseState, CantBite());
+        stateMachine.AddAnyTransition(attackStunnedState, Stun());
        // stateMachine.AddAnyTransition(stunnedFromAttackState, HitByAttack());
         stateMachine.AddTransition(patrolState, circleState, PlayerInSight());
         stateMachine.AddTransition(chaseState, patrolState, LostPlayer());
@@ -65,9 +68,24 @@ public class EnemyController : MonoBehaviour
         stateMachine.SetState(patrolState);
     }
 
+    private Func<bool> StunOver() => () =>
+    {
+        return !sight.gotShot();
+    };
+
+
+    private Func<bool> Stun() => () =>
+    {
+        return sight.gotShot();
+    };
+
+    private Func<bool> PlayerIsHeardChase()=>()=>
+    {
+        return sight.canHear() && aggresive;
+    };
     private Func<bool> PlayerIsHeard()=>()=>
     {
-        return sight.canHear();
+        return sight.canHear() && !aggresive;
     };
 
     private Func<bool> CantBite() => () =>

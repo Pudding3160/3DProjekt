@@ -7,6 +7,7 @@ public class EnemyState_Chase : IState
     public Transform[] patrolPoints;
     public Transform patrolPointContainer;
     private float waitTimer;
+
     
 
     public EnemyState_Chase(EnemyReferences refs)
@@ -24,11 +25,13 @@ public class EnemyState_Chase : IState
     public void OnEnter()
     {
         Debug.Log("entered chase");
+        refs.navMeshagent.speed = 5.0f;
     }
 
     public void OnExit()
     {
         Debug.Log("exited chase");
+        refs.navMeshagent.speed = 2.0f;
     }
 
     public Color GizmoColor()
