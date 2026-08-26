@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -7,8 +8,9 @@ public class EnemySight : MonoBehaviour
     private EnemyReferences refs;
 
     [Header("Settings")]
-    [SerializeField] private float detectionRange = 15f;
-    [SerializeField] private float hearRange = 25f;
+    [SerializeField] private float detectionRange = 25f;
+    [SerializeField] private float hearRange = 20f;
+    [SerializeField] private float longHearRange = 35f;
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private float losePlayerTimer = 1.2f;
     private CharacterController charController; 
@@ -58,6 +60,9 @@ public class EnemySight : MonoBehaviour
         // The overall speed
         overallSpeed = charController.velocity.magnitude;
         //Debug.Log(overallSpeed);
+        if(overallSpeed>4.5f&& distance<longHearRange)
+            return true;
+        else
         return distance <= hearRange && overallSpeed > 3f;
     }
     private bool HasClearPath()

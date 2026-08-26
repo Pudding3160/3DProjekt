@@ -1,7 +1,15 @@
+using System;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    [Header("Stamina")]
+    [SerializeField] private float maxStamina = 50f;
+    [SerializeField] private float staminaDrain = 10f;
+    [SerializeField] private float staminaRegen = 5f;
+
+    private float stamina;
+
     [Header("Speed values")]
     [SerializeField] private float walkSpeed = 3.0f;
     [SerializeField] private float sneakMul = 0.67f;
@@ -19,6 +27,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private CharacterController charController;
     [SerializeField] private Camera cam;
     [SerializeField] private PlayerInputHandler playerInputHandler;
+    [SerializeField] private Interact interact;
+
+    [Header("Shooting")]
+    [SerializeField] private Shoot shoot;
+    private float ammoCapacity = 2f;
 
     private Vector3 currentMovement;
     private float verticalRotation;
@@ -31,7 +44,8 @@ public class PlayerControl : MonoBehaviour
             if (playerInputHandler.IsSneaking)
                 return walkSpeed * sneakMul;
 
-            if (playerInputHandler.IsSprinting)
+            // Only sprint if the player has stamina
+            if (playerInputHandler.IsSprinting && stamina > 0f)
                 return walkSpeed * sprintMul;
 
             return walkSpeed;
@@ -40,6 +54,8 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
+        stamina = maxStamina;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -48,9 +64,59 @@ public class PlayerControl : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        HandleShooting();
+        HandleStamina();
+        HandleInteract();
 
         // Reset one-shot inputs after they have been processed
         playerInputHandler.ResetInputs();
+    }
+
+    private void HandleInteract()
+    {
+        if (playerInputHandler.InteractTriggered)
+        {
+            interact.interact();
+        }
+    }
+
+    private void HandleStamina()
+    {
+        bool isMoving =
+            playerInputHandler.MoveInput.sqrMagnitude > 0.01f;
+
+        bool isActuallySprinting =
+            playerInputHandler.IsSprinting &&
+            isMoving &&
+            stamina > 0f;
+
+        if (isActuallySprinting)
+        {
+            // Drain stamina
+            stamina -= staminaDrain * Time.deltaTime;
+
+            // Prevent stamina from going below zero
+            stamina = Mathf.Max(stamina, 0f);
+        }
+        else
+        {
+            // Regenerate stamina
+            stamina += staminaRegen * Time.deltaTime;
+
+            // Prevent stamina from going above maximum
+            stamina = Mathf.Min(stamina, maxStamina);
+        }
+
+       //debug.Log("Stamina: " + stamina);
+    }
+
+    private void HandleShooting()
+    {
+        if (playerInputHandler.shootTriggered && ammoCapacity>0)
+        {
+            shoot.Shooting();
+            ammoCapacity -= 1;
+        }
     }
 
     private Vector3 CalcWorldDirection()
@@ -61,7 +127,8 @@ public class PlayerControl : MonoBehaviour
             playerInputHandler.MoveInput.y
         );
 
-        Vector3 worldDirection = transform.TransformDirection(inputDirection);
+        Vector3 worldDirection =
+            transform.TransformDirection(inputDirection);
 
         return worldDirection.normalized;
     }
@@ -79,7 +146,10 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            currentMovement.y += Physics.gravity.y * gravityMul * Time.deltaTime;
+            currentMovement.y +=
+                Physics.gravity.y *
+                gravityMul *
+                Time.deltaTime;
         }
     }
 
@@ -87,17 +157,26 @@ public class PlayerControl : MonoBehaviour
     {
         Vector3 worldDirection = CalcWorldDirection();
 
-        currentMovement.x = worldDirection.x * CurrentSpeed;
-        currentMovement.z = worldDirection.z * CurrentSpeed;
+        currentMovement.x =
+            worldDirection.x * CurrentSpeed;
+
+        currentMovement.z =
+            worldDirection.z * CurrentSpeed;
 
         HandleJumping();
 
-        charController.Move(currentMovement * Time.deltaTime);
+        charController.Move(
+            currentMovement * Time.deltaTime
+        );
     }
 
     private void ApplyHorizontalRotation(float rotationAmount)
     {
-        transform.Rotate(0f, rotationAmount, 0f);
+        transform.Rotate(
+            0f,
+            rotationAmount,
+            0f
+        );
     }
 
     private void ApplyVerticalRotation(float rotationAmount)
@@ -108,11 +187,12 @@ public class PlayerControl : MonoBehaviour
             lookRange
         );
 
-        cam.transform.localRotation = Quaternion.Euler(
-            verticalRotation,
-            0f,
-            0f
-        );
+        cam.transform.localRotation =
+            Quaternion.Euler(
+                verticalRotation,
+                0f,
+                0f
+            );
     }
 
     private void HandleRotation()

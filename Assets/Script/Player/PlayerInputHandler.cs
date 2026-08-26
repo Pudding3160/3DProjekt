@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,12 +16,16 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string jump = "Jump";
     [SerializeField] private string sneak = "Crouch";
     [SerializeField] private string sprint = "Sprint";
+    [SerializeField] private string shoot = "Attack";
+    [SerializeField] private string interact = "Interact";
 
     private InputAction moveAction;
     private InputAction rotationAction;
     private InputAction jumpAction;
     private InputAction sneakAction;
     private InputAction sprintAction;
+    private InputAction shootAction;
+    private InputAction interactAction;
 
     public Vector2 MoveInput { get; private set; }
     public Vector2 RotationInput { get; private set; }
@@ -29,6 +34,10 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool IsSneaking { get; private set; }
     public bool IsSprinting { get; private set; }
+
+    public bool shootTriggered { get; private set; }
+
+    public bool InteractTriggered { get; private set; }
 
     private void Awake()
     {
@@ -40,6 +49,8 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction = mapRef.FindAction(jump);
         sneakAction = mapRef.FindAction(sneak);
         sprintAction = mapRef.FindAction(sprint);
+        shootAction = mapRef.FindAction(shoot);
+        interactAction= mapRef.FindAction(interact);    
 
         SubscribeToInput();
     }
@@ -77,11 +88,20 @@ public class PlayerInputHandler : MonoBehaviour
 
         sprintAction.canceled += inputInfo =>
             IsSprinting = false;
+
+        //shoot
+        shootAction.performed += inputInfo => shootTriggered = true;
+
+        interactAction.performed += inputInfo =>
+    InteractTriggered = true;
+
     }
 
     public void ResetInputs()
     {
         JumpTriggered = false;
+        shootTriggered = false;
+        InteractTriggered = false;
     }
 
     private void OnEnable()
