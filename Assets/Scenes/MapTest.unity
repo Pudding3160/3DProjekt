@@ -1015,6 +1015,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 602595105702673869, guid: bdabcee4363b08c4aa5be9aa6ef0590a, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 975497286}
+    - target: {fileID: 602595105702673869, guid: bdabcee4363b08c4aa5be9aa6ef0590a, type: 3}
+      propertyPath: enemyTransform
+      value: 
+      objectReference: {fileID: 1827297548}
     - target: {fileID: 748472803208707352, guid: bdabcee4363b08c4aa5be9aa6ef0590a, type: 3}
       propertyPath: player
       value: 
@@ -1882,6 +1890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shoot
   firePoint: {fileID: 48039189}
+  particle: {fileID: 4644734701017160129, guid: 8cdd0fe811e475a4e81d88b651d1ccbf, type: 3}
 --- !u!4 &1022832726 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8949977494501623616, guid: dfa1c63210e7b78448c827355bc74e5e, type: 3}
@@ -1990,6 +1999,10 @@ PrefabInstance:
       propertyPath: shoot
       value: 
       objectReference: {fileID: 975497292}
+    - target: {fileID: 3191185320100982958, guid: ca70cda07b013b54184e155afe477aea, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 975497286}
     - target: {fileID: 3191185320100982958, guid: ca70cda07b013b54184e155afe477aea, type: 3}
       propertyPath: walkSpeed
       value: 3.8
@@ -2434,6 +2447,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7061082623798467357, guid: 94cb3948c9f678e449e9005ed51981e6, type: 3}
   m_PrefabInstance: {fileID: 1491491093702525021}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1500878378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1500878380}
+  - component: {fileID: 1500878379}
+  m_Layer: 0
+  m_Name: GameState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1500878379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500878378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d43c6a675aa2a14fa7606731c45c4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameStateTracker
+  enemy: {fileID: 1166097396}
+  enemyController: {fileID: 0}
+--- !u!4 &1500878380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500878378}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -101.88542, y: 0, z: -11.42518}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1521930642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5841440015335326926, guid: a7d48aecc78523d449546a09f0cb91ef, type: 3}
@@ -3558,3 +3617,4 @@ SceneRoots:
   - {fileID: 1099616425}
   - {fileID: 145378098}
   - {fileID: 540319972}
+  - {fileID: 1500878380}

@@ -4,8 +4,12 @@ using UnityEngine.Rendering;
 
 public class EnemyState_Bite : IState
 {
-    public float biteTimer;
-    public bool attackExecuted;
+    private EnemyReferences refs;
+
+    public EnemyState_Bite(EnemyReferences refs)
+    {
+        this.refs = refs;
+    }
     public Color GizmoColor()
     {
         return Color.darkViolet;
@@ -15,6 +19,7 @@ public class EnemyState_Bite : IState
     {
         Debug.Log("Entering bite");
         bite();
+        refs.navMeshagent.speed = 0;
     }
 
     public void OnExit()
@@ -24,22 +29,33 @@ public class EnemyState_Bite : IState
 
     public void Tick()
     {
-        biteTimer*=Time.deltaTime;
-        if (biteTimer >= 2f)
-        {
-            bite();
-        }
+
+    }
+
+    private void bit2e()
+    {
+        Debug.Log("bited");
     }
 
     private void bite()
     {
-        Debug.Log("bited");
+        Transform player = refs.playerObject.transform;
+
+        Vector3 direction = refs.enemyTransform.position - player.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            player.rotation = Quaternion.LookRotation(direction);
+        }
+
+        refs.playerControl.Die();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+ 
     }
 
     // Update is called once per frame

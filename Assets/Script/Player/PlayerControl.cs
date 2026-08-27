@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class PlayerControl : MonoBehaviour
     private float stamina;
 
     [Header("Speed values")]
-    [SerializeField] private float walkSpeed = 3.0f;
+     private float walkSpeed = 3.0f;
     [SerializeField] private float sneakMul = 0.67f;
     [SerializeField] private float sprintMul = 1.5f;
 
@@ -32,9 +33,11 @@ public class PlayerControl : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Shoot shoot;
     [SerializeField] private float ammoCapacity = 2f;
+    public GameObject player;
 
     private Vector3 currentMovement;
     private float verticalRotation;
+    public bool die = false;
 
     private float CurrentSpeed
     {
@@ -67,6 +70,10 @@ public class PlayerControl : MonoBehaviour
         HandleShooting();
         HandleStamina();
         HandleInteract();
+        if (die)
+        {
+            Die();
+        }
 
         // Reset one-shot inputs after they have been processed
         playerInputHandler.ResetInputs();
@@ -205,5 +212,14 @@ public class PlayerControl : MonoBehaviour
 
         ApplyHorizontalRotation(mouseXRotation);
         ApplyVerticalRotation(mouseYRotation);
+    }
+
+    public void Die()
+    {
+        walkSpeed = 0f;
+        sens = 0f;
+
+        Destroy(player, 2);
+        Time.timeScale = 0f;
     }
 }

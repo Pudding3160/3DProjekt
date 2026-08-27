@@ -17,8 +17,10 @@ public class EnemyController : MonoBehaviour
     private EnemySight sight;
     private EnemyBite bite;
 
+    private bool canSee = false;
+    private bool canHear = false;
+    private bool aggresive = false;
 
-    private bool aggresive = true;
    
    
 
@@ -46,7 +48,7 @@ public class EnemyController : MonoBehaviour
         var idleState = new EnemyState_Idle(enemyRefs);
         var chaseState= new EnemyState_Chase(enemyRefs);
         var circleState= new EnemyState_Circle(enemyRefs,playerCirclePoints);
-        var attackState = new EnemyState_Bite();
+        var attackState = new EnemyState_Bite(enemyRefs);
         var attackStunnedState= new EnemyState_AttackStunned(enemyRefs);
 
         //transitions
@@ -56,10 +58,12 @@ public class EnemyController : MonoBehaviour
         stateMachine.AddTransition(patrolState, circleState, PlayerIsHeard());
         stateMachine.AddTransition(patrolState,chaseState, PlayerIsHeardChase());
         stateMachine.AddTransition(attackStunnedState, patrolState, StunOver());
-        //stateMachine.AddTransition(chaseState, idleState, PlayerInAttackRange());
-        // stateMachine.AddTransition(attackState, chaseState, CantBite());
+
+        stateMachine.AddTransition(patrolState, attackState, PlayerInAttackRange());
+        stateMachine.AddTransition(chaseState, attackState, PlayerInAttackRange());
+    
         stateMachine.AddAnyTransition(attackStunnedState, Stun());
-       // stateMachine.AddAnyTransition(stunnedFromAttackState, HitByAttack());
+       
         stateMachine.AddTransition(patrolState, circleState, PlayerInSight());
         stateMachine.AddTransition(chaseState, patrolState, LostPlayer());
 
