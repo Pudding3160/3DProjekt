@@ -31,7 +31,7 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Shooting")]
     [SerializeField] private Shoot shoot;
-    private float ammoCapacity = 2f;
+    [SerializeField] private float ammoCapacity = 2f;
 
     private Vector3 currentMovement;
     private float verticalRotation;
