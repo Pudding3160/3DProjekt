@@ -17,9 +17,9 @@ public class EnemyController : MonoBehaviour
     private EnemySight sight;
     private EnemyBite bite;
 
-    private bool canSee = false;
-    private bool canHear = false;
-    private bool aggresive = false;
+    public bool canSee = false;
+    public bool canHear = false;
+    public bool aggresive = false;
 
    
    
@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour
        
         stateMachine.AddTransition(patrolState, circleState, PlayerInSight());
         stateMachine.AddTransition(chaseState, patrolState, LostPlayer());
-
+        stateMachine.AddTransition(circleState, patrolState, LostPlayer());
 
         //starting state
         stateMachine.SetState(patrolState);
@@ -85,17 +85,13 @@ public class EnemyController : MonoBehaviour
 
     private Func<bool> PlayerIsHeardChase()=>()=>
     {
-        return sight.canHear() && aggresive;
+        return sight.canHear() && aggresive && canHear;
     };
     private Func<bool> PlayerIsHeard()=>()=>
     {
-        return sight.canHear() && !aggresive;
+        return sight.canHear() && !aggresive && canHear;
     };
 
-    private Func<bool> CantBite() => () =>
-    {
-        return !bite.canBite();
-    };
 
     private Func<bool> PlayerInAttackRange() => () =>
     {
@@ -112,12 +108,12 @@ public class EnemyController : MonoBehaviour
 
     private Func<bool> PlayerInSight() => () =>
     {
-        return sight.canSeePlayer() && !aggresive;
+        return sight.canSeePlayer() && !aggresive && canSee;
 
     };
     private Func<bool> PlayerInSightChase() => () =>
     {
-        return sight.canSeePlayer() && aggresive;
+        return sight.canSeePlayer() && aggresive && canSee;
 
 
     };
