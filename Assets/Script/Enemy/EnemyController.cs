@@ -19,10 +19,13 @@ public class EnemyController : MonoBehaviour
 
     public bool canSee = false;
     public bool canHear = false;
-    public bool aggresive = false;
+    bool aggresive = true;
 
    
-   
+   public void turnAggro()
+    {
+        aggresive = true;
+    }
 
     private void Awake()
     {
@@ -67,6 +70,8 @@ public class EnemyController : MonoBehaviour
         stateMachine.AddTransition(patrolState, circleState, PlayerInSight());
         stateMachine.AddTransition(chaseState, patrolState, LostPlayer());
         stateMachine.AddTransition(circleState, patrolState, LostPlayer());
+
+        //stateMachine.AddTransition(Shoot)
 
         //starting state
         stateMachine.SetState(patrolState);

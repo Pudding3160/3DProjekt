@@ -220,6 +220,6 @@ public class PlayerControl : MonoBehaviour
         sens = 0f;
 
         Destroy(player, 2);
-        Time.timeScale = 0f;
+        
     }
 }

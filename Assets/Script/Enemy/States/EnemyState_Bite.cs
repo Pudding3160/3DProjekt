@@ -20,6 +20,7 @@ public class EnemyState_Bite : IState
         Debug.Log("Entering bite");
         bite();
         refs.navMeshagent.speed = 0;
+        refs.animator.SetBool("IsBiting",true);
     }
 
     public void OnExit()

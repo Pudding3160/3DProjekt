@@ -26,12 +26,15 @@ public class EnemyState_Chase : IState
     {
         Debug.Log("entered chase");
         refs.navMeshagent.speed = 5.0f;
+        refs.animator.SetBool("IsChasing",true);
     }
 
     public void OnExit()
     {
         Debug.Log("exited chase");
         refs.navMeshagent.speed = 2.0f;
+
+        refs.animator.SetBool("IsChasing", false);
     }
 
     public Color GizmoColor()

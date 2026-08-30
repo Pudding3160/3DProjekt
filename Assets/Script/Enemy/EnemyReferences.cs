@@ -11,10 +11,12 @@ public class EnemyReferences : MonoBehaviour
     public GameObject playerObject;
     public Transform enemyTransform;
     public PlayerControl playerControl;
+    public GameObject entity;
+    
     private void Awake()
     {
         navMeshagent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        animator = entity.GetComponent<Animator>();
         playerControl=playerObject.GetComponent<PlayerControl>();
     }
 }
