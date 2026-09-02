@@ -9,6 +9,12 @@ public class GameStateTracker : MonoBehaviour
     public EnemyController enemyCtrl;
     public GameObject enemy2;
     public EnemyController enemyCtrl2;
+    public GameObject moveText;
+    public GameObject seeText;
+    public GameObject hearText;
+    public GameObject twoText;
+
+
     private int random;
     private List<int> nums = new List<int> { 1, 2, 3};
 
@@ -18,11 +24,13 @@ public class GameStateTracker : MonoBehaviour
     {
         enemyCtrl = enemy.GetComponent<EnemyController>();
         enemyCtrl2 = enemy2.GetComponent<EnemyController>();
+        
     }
     private void OnEnable()
     {
         enemy2.gameObject.SetActive(false);
         Debug.Log("It can move");
+        moveText.SetActive(true);
         AddAbility();
         
     }
@@ -37,17 +45,20 @@ public class GameStateTracker : MonoBehaviour
                 enemyCtrl2.canSee = true;
                 nums.Remove(1);
                 Debug.Log("It can see");
+                seeText.SetActive(true);
                 break;
             case 2:
                 enemyCtrl.canHear = true;
                 enemyCtrl2.canHear = true;
                 nums.Remove(2);
                 Debug.Log("It can hear");
+                hearText.SetActive(true);
                 break;
             case 3:
                 enemy2.gameObject.SetActive(true);
                 Debug.Log("It is two");
                 nums.Remove(3);
+                twoText.SetActive(true);
                 break;
             default:
                 Debug.Log("No abilities left");

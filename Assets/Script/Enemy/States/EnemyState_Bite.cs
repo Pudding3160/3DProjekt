@@ -17,6 +17,8 @@ public class EnemyState_Bite : IState
 
     public void OnEnter()
     {
+        refs.walk.Stop();
+        
         Debug.Log("Entering bite");
         bite();
         refs.navMeshagent.speed = 0;
@@ -51,6 +53,7 @@ public class EnemyState_Bite : IState
         }
 
         refs.playerControl.Die();
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

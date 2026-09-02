@@ -59,6 +59,7 @@ public class EnemySight : MonoBehaviour
         float verticalSpeed = charController.velocity.y;
         // The overall speed
         overallSpeed = charController.velocity.magnitude;
+        //DEBUG TO CHECK PLAYER SPEED
         //Debug.Log(overallSpeed);
         if(overallSpeed>4.5f&& distance<longHearRange)
             return true;

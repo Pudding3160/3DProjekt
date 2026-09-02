@@ -40,6 +40,8 @@ public class EnemyState_Circle : IState
 
     public void OnEnter()
     {
+        refs.walk.Play();
+        refs.walk.pitch = 1.1f;
         Debug.Log("Entered Circle");
         refs.navMeshagent.speed = 4.0f;
         waitTimer = 0f;

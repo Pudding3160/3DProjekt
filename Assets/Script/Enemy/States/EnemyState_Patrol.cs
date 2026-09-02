@@ -15,6 +15,8 @@ public class EnemyState_Patrol : IState
 
     public void OnEnter()
     {
+        refs.walk.Play();
+        refs.walk.pitch = 1.1f;
         PickNewPoint();
         waitTimer = 0f;
         Debug.Log("entered patrol");

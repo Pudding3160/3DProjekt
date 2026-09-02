@@ -124,7 +124,6 @@ MonoBehaviour:
   maxStamina: 50
   staminaDrain: 10
   staminaRegen: 5
-  walkSpeed: 3.8
   sneakMul: 0.67
   sprintMul: 1.5
   jumpForce: 5
@@ -137,6 +136,8 @@ MonoBehaviour:
   interact: {fileID: 557194688154619104}
   shoot: {fileID: 3647740242124750250}
   ammoCapacity: 2
+  player: {fileID: 0}
+  die: 0
 --- !u!114 &6860539589729388453
 MonoBehaviour:
   m_ObjectHideFlags: 0

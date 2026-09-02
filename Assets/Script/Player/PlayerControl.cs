@@ -1,9 +1,10 @@
-
 using System;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] GameObject pause;
     [Header("Stamina")]
     [SerializeField] private float maxStamina = 50f;
     [SerializeField] private float staminaDrain = 10f;
@@ -14,7 +15,7 @@ public class PlayerControl : MonoBehaviour
     [Header("Speed values")]
      private float walkSpeed = 3.0f;
     [SerializeField] private float sneakMul = 0.67f;
-    [SerializeField] private float sprintMul = 1.5f;
+    [SerializeField] private float sprintMul = 1.6f;
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 5.0f;
@@ -70,14 +71,85 @@ public class PlayerControl : MonoBehaviour
         HandleShooting();
         HandleStamina();
         HandleInteract();
-        if (die)
-        {
-            Die();
-        }
+        HandleSound();
+        HandlePause();
+        HandleDeath();
 
         // Reset one-shot inputs after they have been processed
         playerInputHandler.ResetInputs();
     }
+
+    private void HandleDeath()
+    {
+        if (die)
+        {
+            Die();
+        }
+    }
+
+    private void HandlePause()
+    {
+        if (playerInputHandler.PauseTriggered)
+        {
+           Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            pause.SetActive(true);
+            sens = 0f;
+            
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            pause.SetActive(false);
+            sens = 0.1f;
+        }
+
+    }
+
+    private void HandleSound()
+    {
+        bool isMoving =
+            playerInputHandler.MoveInput.sqrMagnitude > 0.01f;
+
+        bool isSprinting =
+            playerInputHandler.IsSprinting &&
+            isMoving &&
+            stamina > 0f;
+
+        bool isSneaking =
+            playerInputHandler.IsSneaking &&
+            isMoving;
+
+        if (!isMoving)
+        {
+            AudioManager.instance.Stop("Walk");
+            AudioManager.instance.Stop("Sprint");
+            AudioManager.instance.Stop("Sneak");
+        }
+        else if (isSneaking)
+        {
+            AudioManager.instance.Stop("Walk");
+            AudioManager.instance.Stop("Sprint");
+            AudioManager.instance.Play("Sneak");
+        }
+        else if (isSprinting)
+        {
+            AudioManager.instance.Stop("Walk");
+            AudioManager.instance.Stop("Sneak");
+            AudioManager.instance.Play("Sprint");
+        }
+        else
+        {
+            AudioManager.instance.Stop("Sprint");
+            AudioManager.instance.Stop("Sneak");
+            AudioManager.instance.Play("Walk");
+        }
+    }
+
+
 
     private void HandleInteract()
     {
@@ -99,6 +171,7 @@ public class PlayerControl : MonoBehaviour
 
         if (isActuallySprinting)
         {
+           
             // Drain stamina
             stamina -= staminaDrain * Time.deltaTime;
 
@@ -218,7 +291,7 @@ public class PlayerControl : MonoBehaviour
     {
         walkSpeed = 0f;
         sens = 0f;
-
+        FindFirstObjectByType<AudioManager>().Play("SpiderBite");
         Destroy(player, 2);
         
     }

@@ -16,6 +16,8 @@ public class EnemyState_AttackStunned : IState
 
     public void OnEnter()
     {
+        refs.walk.Stop();
+        
         refs.animator.SetBool("IsStunned", true);
         Debug.Log("Hit Stunned");
         refs.navMeshagent.speed = 0f;

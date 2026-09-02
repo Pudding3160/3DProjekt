@@ -12,11 +12,13 @@ public class EnemyReferences : MonoBehaviour
     public Transform enemyTransform;
     public PlayerControl playerControl;
     public GameObject entity;
+    public AudioSource walk;
     
     private void Awake()
     {
         navMeshagent = GetComponent<NavMeshAgent>();
         animator = entity.GetComponent<Animator>();
         playerControl=playerObject.GetComponent<PlayerControl>();
+        walk = GetComponent<AudioSource>();
     }
 }

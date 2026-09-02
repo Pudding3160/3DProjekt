@@ -24,6 +24,8 @@ public class EnemyState_Chase : IState
 
     public void OnEnter()
     {
+        refs.walk.Play();
+        refs.walk.pitch = 1.4f;
         Debug.Log("entered chase");
         refs.navMeshagent.speed = 5.0f;
         refs.animator.SetBool("IsChasing",true);
