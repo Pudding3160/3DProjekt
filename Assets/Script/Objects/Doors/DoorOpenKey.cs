@@ -21,6 +21,7 @@ public class DoorOpenKey : MonoBehaviour, IInteractable
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         doorOpen = door.GetComponent<DoorUpKey>();
         keyPlaced=key.GetComponent<KeyPlace>();
         keyPickUpTracker=player.GetComponent<KeyPickUpTracker>();

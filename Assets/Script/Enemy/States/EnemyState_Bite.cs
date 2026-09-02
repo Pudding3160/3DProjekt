@@ -18,7 +18,8 @@ public class EnemyState_Bite : IState
     public void OnEnter()
     {
         refs.walk.Stop();
-        
+        refs.navMeshagent.ResetPath();
+        refs.navMeshagent.speed = 0f;
         Debug.Log("Entering bite");
         bite();
         refs.navMeshagent.speed = 0;
@@ -43,7 +44,7 @@ public class EnemyState_Bite : IState
     private void bite()
     {
         Transform player = refs.playerObject.transform;
-
+        
         Vector3 direction = refs.enemyTransform.position - player.position;
         direction.y = 0f;
 

@@ -5,6 +5,8 @@ public class PlayerControl : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] GameObject pause;
+    [SerializeField] UIManager UIManager;
+    
     [Header("Stamina")]
     [SerializeField] private float maxStamina = 50f;
     [SerializeField] private float staminaDrain = 10f;
@@ -91,6 +93,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (playerInputHandler.PauseTriggered)
         {
+            Debug.Log("aaaaa");
            Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -196,6 +199,7 @@ public class PlayerControl : MonoBehaviour
         {
             shoot.Shooting();
             ammoCapacity -= 1;
+            UIManager.UpdateAmmo(ammoCapacity.ToString());
         }
     }
 
@@ -243,7 +247,7 @@ public class PlayerControl : MonoBehaviour
         currentMovement.z =
             worldDirection.z * CurrentSpeed;
 
-        HandleJumping();
+       // HandleJumping();
 
         charController.Move(
             currentMovement * Time.deltaTime

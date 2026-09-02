@@ -12,13 +12,16 @@ public class LightsInteraction : MonoBehaviour, IInteractable
     {
         if (keyPickUpTracker.hasPowerSwitch) { 
         lighson.LightsInteract();
-        keyPlaced.keyPlaced();}
+        keyPlaced.keyPlaced();
+            keyPickUpTracker.usedLightKey();
+        }
        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         lighson=lights.GetComponent<LightsOn>();
         keyPlaced=key.GetComponent<KeyPlace>();
         keyPickUpTracker = player.GetComponent<KeyPickUpTracker>();

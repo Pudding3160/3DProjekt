@@ -16,6 +16,10 @@ public class EnemyReferences : MonoBehaviour
     
     private void Awake()
     {
+        playerObject = GameObject.FindWithTag("Player");
+        player = playerObject.transform;
+        playerControl=playerObject.GetComponent<PlayerControl>();
+
         navMeshagent = GetComponent<NavMeshAgent>();
         animator = entity.GetComponent<Animator>();
         playerControl=playerObject.GetComponent<PlayerControl>();

@@ -7,7 +7,8 @@ public class Key : MonoBehaviour, IInteractable
     public KeyPickUpTracker tracker;
     private void Start()
     {
-        tracker=player.GetComponent<KeyPickUpTracker>();
+        player = GameObject.FindWithTag("Player");
+        tracker =player.GetComponent<KeyPickUpTracker>();
     }
     public void OnInteract()
     {

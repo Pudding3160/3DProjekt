@@ -16,7 +16,6 @@ public class EnemySight : MonoBehaviour
     private CharacterController charController; 
     public GameObject player;
     private float overallSpeed;
-    public Transform playerLastSpotted;
     public float timeSinceLostPlayer;
     public bool shot = false;
 
@@ -25,7 +24,8 @@ public class EnemySight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       refs = GetComponent<EnemyReferences>();
+        player = GameObject.FindWithTag("Player");
+        refs = GetComponent<EnemyReferences>();
         charController = player.GetComponent<CharacterController>();
     }
 

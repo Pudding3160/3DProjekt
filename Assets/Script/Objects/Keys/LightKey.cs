@@ -6,6 +6,7 @@ public class LightKey : MonoBehaviour, IInteractable
     public KeyPickUpTracker tracker;
     private void Start()
     {
+        player = GameObject.FindWithTag("Player");
         tracker = player.GetComponent<KeyPickUpTracker>();
     }
     public void OnInteract()
