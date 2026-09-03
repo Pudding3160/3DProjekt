@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +18,6 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string shoot = "Attack";
     [SerializeField] private string interact = "Interact";
     [SerializeField] private string pause = "Pause";
-
 
     private InputAction moveAction;
     private InputAction rotationAction;
@@ -55,58 +53,57 @@ public class PlayerInputHandler : MonoBehaviour
         sneakAction = mapRef.FindAction(sneak);
         sprintAction = mapRef.FindAction(sprint);
         shootAction = mapRef.FindAction(shoot);
-        interactAction= mapRef.FindAction(interact);  
-        pauseAction= mapRef.FindAction(pause);
+        interactAction = mapRef.FindAction(interact);
+        pauseAction = mapRef.FindAction(pause);
 
         SubscribeToInput();
     }
 
     private void SubscribeToInput()
     {
-        
         // Movement
-        moveAction.performed += inputInfo =>
-            MoveInput = inputInfo.ReadValue<Vector2>();
+        moveAction.performed += ctx =>
+            MoveInput = ctx.ReadValue<Vector2>();
 
-        moveAction.canceled += inputInfo =>
+        moveAction.canceled += ctx =>
             MoveInput = Vector2.zero;
 
         // Rotation
-        rotationAction.performed += inputInfo =>
-            RotationInput = inputInfo.ReadValue<Vector2>();
+        rotationAction.performed += ctx =>
+            RotationInput = ctx.ReadValue<Vector2>();
 
-        rotationAction.canceled += inputInfo =>
+        rotationAction.canceled += ctx =>
             RotationInput = Vector2.zero;
 
         // Jump
-        jumpAction.performed += inputInfo =>
+        jumpAction.performed += _ =>
             JumpTriggered = true;
 
-        // Sneak / Crouch
-        sneakAction.performed += inputInfo =>
+        // Sneak
+        sneakAction.performed += _ =>
             IsSneaking = true;
 
-        sneakAction.canceled += inputInfo =>
+        sneakAction.canceled += _ =>
             IsSneaking = false;
 
         // Sprint
-        sprintAction.performed += inputInfo =>
+        sprintAction.performed += _ =>
             IsSprinting = true;
 
-        sprintAction.canceled += inputInfo =>
+        sprintAction.canceled += _ =>
             IsSprinting = false;
 
-        //shoot
-        shootAction.performed += inputInfo => shootTriggered = true;
+        // Shoot
+        shootAction.performed += _ =>
+            shootTriggered = true;
 
-        interactAction.performed += inputInfo =>
-    InteractTriggered = true;
+        // Interact
+        interactAction.performed += _ =>
+            InteractTriggered = true;
 
-        //pause
-        pauseAction.performed += inputInfo =>
-    PauseTriggered = !PauseTriggered;
-
-
+        // Pause
+        pauseAction.performed += _ =>
+            PauseTriggered = true;
     }
 
     public void ResetInputs()
@@ -114,6 +111,7 @@ public class PlayerInputHandler : MonoBehaviour
         JumpTriggered = false;
         shootTriggered = false;
         InteractTriggered = false;
+        PauseTriggered = false;
     }
 
     private void OnEnable()

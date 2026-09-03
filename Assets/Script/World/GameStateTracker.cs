@@ -24,7 +24,7 @@ public class GameStateTracker : MonoBehaviour
     {
         enemyCtrl = enemy.GetComponent<EnemyController>();
         enemyCtrl2 = enemy2.GetComponent<EnemyController>();
-        
+        DontDestroyOnLoad(this);
     }
     private void OnEnable()
     {
@@ -37,6 +37,7 @@ public class GameStateTracker : MonoBehaviour
 
     private void AddAbility()
     {
+        Debug.Log("added");
         random = UnityEngine.Random.Range(0, nums.Count);
         switch (nums[random])
         {

@@ -7,6 +7,10 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("MapTest1");
     }
+    public void OnTutorialPress()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
     public void OnQuitPress()
     {
         Application.Quit();

@@ -13,16 +13,16 @@ public class EnemyReferences : MonoBehaviour
     public PlayerControl playerControl;
     public GameObject entity;
     public AudioSource walk;
-    
+
     private void Awake()
     {
         playerObject = GameObject.FindWithTag("Player");
         player = playerObject.transform;
-        playerControl=playerObject.GetComponent<PlayerControl>();
+        playerControl = playerObject.GetComponent<PlayerControl>();
 
         navMeshagent = GetComponent<NavMeshAgent>();
         animator = entity.GetComponent<Animator>();
-        playerControl=playerObject.GetComponent<PlayerControl>();
+        playerControl = playerObject.GetComponent<PlayerControl>();
         walk = GetComponent<AudioSource>();
     }
 }

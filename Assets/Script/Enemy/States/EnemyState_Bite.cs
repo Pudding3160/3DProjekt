@@ -1,15 +1,18 @@
-using System;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class EnemyState_Bite : IState
 {
     private EnemyReferences refs;
 
+    private float biteTimer;
+    private const float biteDuration = 1.5f;
+        
     public EnemyState_Bite(EnemyReferences refs)
     {
         this.refs = refs;
     }
+
     public Color GizmoColor()
     {
         return Color.darkViolet;
@@ -20,31 +23,11 @@ public class EnemyState_Bite : IState
         refs.walk.Stop();
         refs.navMeshagent.ResetPath();
         refs.navMeshagent.speed = 0f;
+
         Debug.Log("Entering bite");
-        bite();
-        refs.navMeshagent.speed = 0;
-        refs.animator.SetBool("IsBiting",true);
-    }
 
-    public void OnExit()
-    {
-       
-    }
-
-    public void Tick()
-    {
-
-    }
-
-    private void bit2e()
-    {
-        Debug.Log("bited");
-    }
-
-    private void bite()
-    {
         Transform player = refs.playerObject.transform;
-        
+
         Vector3 direction = refs.enemyTransform.position - player.position;
         direction.y = 0f;
 
@@ -54,18 +37,23 @@ public class EnemyState_Bite : IState
         }
 
         refs.playerControl.Die();
-        
+
+        biteTimer = 0f;
+
+        refs.animator.SetBool("IsBiting", true);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void OnExit()
     {
- 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Tick()
     {
-        
+        biteTimer += Time.deltaTime;
+
+        if (biteTimer >= biteDuration)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }
