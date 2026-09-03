@@ -3015,8 +3015,20 @@ PrefabInstance:
       value: 2.18
       objectReference: {fileID: 0}
     - target: {fileID: 526352341410481718, guid: 9814693410c94b24ea7e166910226cf5, type: 3}
+      propertyPath: sounds.Array.data[0].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 526352341410481718, guid: 9814693410c94b24ea7e166910226cf5, type: 3}
+      propertyPath: sounds.Array.data[1].volume
+      value: 0.707
+      objectReference: {fileID: 0}
+    - target: {fileID: 526352341410481718, guid: 9814693410c94b24ea7e166910226cf5, type: 3}
       propertyPath: sounds.Array.data[2].volume
-      value: 0.861
+      value: 0.814
+      objectReference: {fileID: 0}
+    - target: {fileID: 526352341410481718, guid: 9814693410c94b24ea7e166910226cf5, type: 3}
+      propertyPath: sounds.Array.data[3].volume
+      value: 0.293
       objectReference: {fileID: 0}
     - target: {fileID: 526352341410481718, guid: 9814693410c94b24ea7e166910226cf5, type: 3}
       propertyPath: sounds.Array.data[1].playOnAwake
