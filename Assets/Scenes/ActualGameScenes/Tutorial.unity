@@ -4301,6 +4301,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4896378395882583668, guid: f616e4e1431ab7b4f8f0ff6ee18368f9, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5030467486117774367, guid: f616e4e1431ab7b4f8f0ff6ee18368f9, type: 3}
       propertyPath: m_IsActive
       value: 1
