@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    
     [SerializeField] private TMP_Text ammo;
+    public static UIManager instance;
     public void UpdateAmmo(string ammocount)
     {
         ammo.text = ammocount;
@@ -15,10 +17,23 @@ public class UIManager : MonoBehaviour
     }
     public void OnNextLevelPress()
     {
-        int index = 2;//Random.Range(1, 4);
+        int index = Random.Range(2, 4);
         SceneManager.LoadScene(index);
     }
 
-    
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
 
 }

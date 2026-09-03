@@ -7,15 +7,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject pause;
     [SerializeField] private UIManager UIManager;
 
-    [Header("Stamina")]
-    [SerializeField] private float maxStamina = 50f;
-    [SerializeField] private float staminaDrain = 10f;
-    [SerializeField] private float staminaRegen = 5f;
-
-    private float stamina;
-
     [Header("Speed")]
-    [SerializeField] private float walkSpeed = 3.0f;
+    public float walkSpeed = 3.0f;
     [SerializeField] private float sneakMul = 0.67f;
     [SerializeField] private float sprintMul = 1.6f;
 
@@ -59,7 +52,7 @@ public class PlayerControl : MonoBehaviour
                 return walkSpeed * sneakMul;
             }
 
-            if (playerInputHandler.IsSprinting && stamina > 0f)
+            if (playerInputHandler.IsSprinting)
             {
                 return walkSpeed * sprintMul;
             }
@@ -70,8 +63,6 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
-        stamina = maxStamina;
-
         Time.timeScale = 1f;
 
         SetCursorLocked(true);
@@ -107,7 +98,6 @@ public class PlayerControl : MonoBehaviour
         HandleMovement();
         HandleRotation();
         HandleShooting();
-        HandleStamina();
         HandleInteract();
         HandleSound();
         HandleDeath();
@@ -124,7 +114,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (playerInputHandler.PauseTriggered)
         {
-            Debug.Log("Pause Niggered");
+            Debug.Log("Pause Triggered");
             TogglePause();
         }
     }
@@ -303,32 +293,6 @@ public class PlayerControl : MonoBehaviour
     }
 
     // =========================================================
-    // STAMINA
-    // =========================================================
-
-    private void HandleStamina()
-    {
-        bool isMoving =
-            playerInputHandler.MoveInput.sqrMagnitude > 0.01f;
-
-        bool isActuallySprinting =
-            playerInputHandler.IsSprinting &&
-            isMoving &&
-            stamina > 0f;
-
-        if (isActuallySprinting)
-        {
-            stamina -= staminaDrain * Time.deltaTime;
-            stamina = Mathf.Max(stamina, 0f);
-        }
-        else
-        {
-            stamina += staminaRegen * Time.deltaTime;
-            stamina = Mathf.Min(stamina, maxStamina);
-        }
-    }
-
-    // =========================================================
     // SHOOTING
     // =========================================================
 
@@ -377,39 +341,36 @@ public class PlayerControl : MonoBehaviour
         bool isMoving =
             playerInputHandler.MoveInput.sqrMagnitude > 0.01f;
 
-        bool isSprinting =
-            playerInputHandler.IsSprinting &&
-            isMoving &&
-            stamina > 0f;
-
-        bool isSneaking =
-            playerInputHandler.IsSneaking &&
-            isMoving;
-
         if (!isMoving)
         {
             AudioManager.instance.Stop("Walk");
             AudioManager.instance.Stop("Sprint");
             AudioManager.instance.Stop("Sneak");
+            return;
         }
-        else if (isSneaking)
+
+        // Sneaking
+        if (playerInputHandler.IsSneaking)
         {
             AudioManager.instance.Stop("Walk");
             AudioManager.instance.Stop("Sprint");
             AudioManager.instance.Play("Sneak");
+            return;
         }
-        else if (isSprinting)
+
+        // Sprinting
+        if (playerInputHandler.IsSprinting)
         {
             AudioManager.instance.Stop("Walk");
             AudioManager.instance.Stop("Sneak");
             AudioManager.instance.Play("Sprint");
+            return;
         }
-        else
-        {
-            AudioManager.instance.Stop("Sprint");
-            AudioManager.instance.Stop("Sneak");
-            AudioManager.instance.Play("Walk");
-        }
+
+        // Walking
+        AudioManager.instance.Stop("Sprint");
+        AudioManager.instance.Stop("Sneak");
+        AudioManager.instance.Play("Walk");
     }
 
     // =========================================================

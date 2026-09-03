@@ -2,7 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class EnemyController : MonoBehaviour
 {
@@ -53,6 +52,7 @@ public class EnemyController : MonoBehaviour
         var circleState= new EnemyState_Circle(enemyRefs,playerCirclePoints);
         var attackState = new EnemyState_Bite(enemyRefs);
         var attackStunnedState= new EnemyState_AttackStunned(enemyRefs);
+        //var shootState = new EnemyState_Shooting(enemyRefs);
 
         //transitions
 

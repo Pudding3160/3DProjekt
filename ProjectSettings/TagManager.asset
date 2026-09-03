@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - KeySpawnPoint
+  - Enemy
+  - Rule
   layers:
   - Default
   - TransparentFX
