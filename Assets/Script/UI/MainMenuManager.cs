@@ -15,7 +15,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void OnStartPress()
     {
-        int index = Random.Range(3, 4);
+        int index = Random.Range(2, 4);
         SceneManager.LoadScene(index);
     }
     public void OnTutorialPress()
